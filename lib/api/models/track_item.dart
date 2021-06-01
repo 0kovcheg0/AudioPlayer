@@ -1,18 +1,38 @@
-import 'package:flutter/foundation.dart';
+
 
 class TrackItem {
-  final String? albumCover;
-  final String? trackName;
-  final String? authorName;
-  final String? albumName;
+  String? albumCover;
+  String? trackName;
+  String? authorName;
+  String? id;
+  int? duration;
+  String? audioFile;
 
-  const TrackItem({
+  TrackItem({
     required this.albumCover,
     required this.trackName,
     required this.authorName,
-    required this.albumName,
-  }) : assert(albumCover != null),
-        assert(trackName != null),
-        assert(authorName != null),
-        assert(albumName != null);
+    required this.id,
+    required this.duration,
+    required this.audioFile,
+  });
+
+  TrackItem.fromJson(Map<String, dynamic> json) {
+    albumCover = json['artworkUrlPath'];
+    trackName = json['title'];
+    authorName = json['artist'];
+    id = json['id'];
+    duration = json['duration'];
+    audioFile = json['audioFileUrlPath'];
+  }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['artworkUrlPath'] = this.albumCover;
+    data['title'] = this.trackName;
+    data['artist'] = this.authorName;
+    data['id'] = this.id;
+    data['duration'] = this.duration;
+    data['audioFileUrlPath'] = this.audioFile;
+    return data;
+  }
 }

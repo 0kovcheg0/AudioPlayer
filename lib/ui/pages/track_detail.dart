@@ -6,10 +6,14 @@ import 'package:flutter_laba_1/resources/app_strings.dart';
 
 class TrackDetail extends StatefulWidget{
 
-  TrackDetail({Key? key, required this.title, required this.item}) : super(key: key);
-
   final String title;
-  final TrackItem item;
+  final TrackItem trackItem;
+
+  const TrackDetail({
+    required Key key,
+    required this.title,
+    this.trackItem,
+  }) : super(key: key);
 
   @override
   _TrackDetailState createState() => _TrackDetailState();
@@ -28,7 +32,7 @@ class _TrackDetailState extends State<TrackDetail> {
       Column(
         children: [
           SizedBox(width: 400),
-          Expanded(child: _buildTrackItem(widget.item.trackName, widget.item.authorName, widget.item.albumName, widget.item.albumCover))
+          Expanded(child: _buildTrackItem(trackName, widget.item.authorName, widget.item.albumName, widget.item.albumCover))
         ],
       ),
     );

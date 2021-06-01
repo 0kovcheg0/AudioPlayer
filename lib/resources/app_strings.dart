@@ -19,5 +19,10 @@ class AppStrings {
   //Track Detail Page
   static const trackDetail = "Track detail";
 
+  //API Urls
+
+  static const baseUrl = 'https://api-flutter-audio-player.herokuapp.com/tunes';
+  static const urlForList = '/?_page=1&_limit=20';
+  static const _urlForDetailed = '';
 
 }
