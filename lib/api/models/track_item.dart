@@ -1,6 +1,9 @@
 
 
-class TrackItem {
+import 'package:equatable/equatable.dart';
+
+// ignore: must_be_immutable
+class TrackItem extends Equatable{
   String? albumCover;
   String? trackName;
   String? authorName;
@@ -35,4 +38,7 @@ class TrackItem {
     data['audioFileUrlPath'] = this.audioFile;
     return data;
   }
+
+  @override
+  List<Object?> get props => [id, trackName, audioFile, albumCover, duration, authorName];
 }

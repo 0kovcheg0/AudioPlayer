@@ -6,8 +6,14 @@ import 'package:flutter_laba_1/cubit/track_cubit.dart';
 import 'package:flutter_laba_1/resources/app_strings.dart';
 import 'package:flutter_laba_1/ui/pages/side_menu.dart';
 import 'package:flutter_laba_1/ui/pages/track_detail.dart';
+import 'package:flutter_laba_1/ui/views/track_view.dart';
 
 class HomePage extends StatefulWidget {
+
+  final List<TrackItem> trackItem;
+  const HomePage({
+    Key? key,
+    required this.trackItem}): super(key: key);
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -48,14 +54,15 @@ class _HomePageState extends State<HomePage> {
                 return buildLoading();
             }
           },
-        ));
+        ),
+    );
   }
 
-  Widget buildTrackList(TrackItem trackItem) {
-    return SingleChildScrollView(
-        child: Column(
-      children: [
-        Container(
+  Widget buildTrackList(List<TrackItem> trackItem) {
+    return ListView.builder(
+      itemCount: trackItem.length,
+      itemBuilder: (context, index) {
+        return Container(
           width: double.infinity,
           height: 50.0,
           color: Colors.white,
@@ -65,60 +72,44 @@ class _HomePageState extends State<HomePage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => TrackDetail(
-                    trackItem: trackItem,
-                    title: '', key: ,
+                    trackItem: trackItem[index],
+                    title: 'Track Detail',
+                    key: UniqueKey(),
                   ),
                 ),
               );
             },
             child: Row(
-              children: [Expanded(child: _buildTrackItem(trackItem))],
+              children: [
+                Expanded(
+                  child: TrackView(trackItem: trackItem[index]),
+                ),
+              ],
             ),
           ),
-        ),
-      ],
-    ));
-  }
-
-  Widget _buildTrackItem(TrackItem trackItem) {
-    return Container(
-      child: Row(
-        children: [
-          Hero(
-              tag: 'imageHero',
-              child: Image.asset(trackItem.albumCover.toString(),
-                  height: 50.0, fit: BoxFit.cover)),
-          Text(trackItem.authorName! + " - " + trackItem.trackName!,
-              style: TextStyle(fontSize: 15)),
-        ],
-      ),
+        );
+      },
     );
   }
-}
 
-Widget buildButtonLoad(BuildContext context) {
-  final trackCubit = context.read<TrackCubit>();
-  return Row(
-    mainAxisSize: MainAxisSize.min,
-    children: <Widget>[
-      FloatingActionButton(
-        child: Text("Load Tracks"),
-        onPressed: () {
-          trackCubit.getTrackItem();
-        },
-      ),
-    ],
-  );
-}
+  Widget buildButtonLoad(BuildContext context) {
+    final trackCubit = context.read<TrackCubit>();
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        FloatingActionButton(
+          child: Text("Load Tracks"),
+          onPressed: () {
+            trackCubit.getTracks();
+          },
+        ),
+      ],
+    );
+  }
 
-Widget buildLoading() {
-  return Center(
-    child: CircularProgressIndicator(),
-  );
-}
-
-//TODO KAK ПОМЕСТИТЬ ФУНКЦИЮ В БИЛД
-void submitTrackItem(BuildContext context) {
-  final trackCubit = context.read<TrackCubit>();
-  trackCubit.getTrackItem();
+  Widget buildLoading() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
 }

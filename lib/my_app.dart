@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.red,
           ),
           home: BlocProvider(
-              create: (BuildContext context) => TrackCubit(ApiClient())..getTrackItem(),
-              child: HomePage(),
+              create: (BuildContext context) => TrackCubit(ApiClient())..getTracks(),
+              child: HomePage(trackItem: [],),
           )
       );
 
